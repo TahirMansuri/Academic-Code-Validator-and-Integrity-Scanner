@@ -26,3 +26,19 @@ An automated cloud grading assistant and code-integrity scanning application des
 - **APIs**: Google Classroom API (v1), Google Drive API (v3), SMTP (tls/587)
 - **Dependencies**: `google-api-python-client`, `google-auth-oauthlib`, `getpass`, `difflib`
 
+---
+
+## Quick Start & Setup
+For developers checking out this project, you need to configure your own Google API project credentials and SMTP values to run it:
+
+1. **Install Requirements**:
+   ```bash
+   pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib
+   ```
+2. **Google Credentials**: Create a project in Google Cloud Console, enable Classroom & Drive APIs, generate a Desktop OAuth Client ID, download it as `credentials.json`, and place it in the project root folder.
+3. **Execution**:
+   ```bash
+   python classroom_compiler.py
+   ```
+   *For detailed configuration instructions, please refer to the [Setup Manual](instructions.md).*
+
