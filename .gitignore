@@ -1,0 +1,25 @@
+# Google Credentials (SECURITY RISK - DO NOT UPLOAD)
+credentials.json
+token.json
+
+# Private Accounts Info (SECURITY RISK - DO NOT UPLOAD)
+accountsinfo.md
+
+# Python Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+
+# Downloaded submissions and generated reports
+classroom_submissions/
+classroom_compilation_report.html
+compilation_report.html
+
+# macOS files
+.DS_Store
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
