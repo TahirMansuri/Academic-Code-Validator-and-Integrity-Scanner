@@ -1,0 +1,35 @@
+[
+    {
+        "id": 1,
+        "question": "What is the output of print(2 ** 3)?",
+        "options": [
+            "6",
+            "8",
+            "9",
+            "Error"
+        ],
+        "answer": "8"
+    },
+    {
+        "id": 2,
+        "question": "Which of the following is a mutable data type in Python?",
+        "options": [
+            "Tuple",
+            "String",
+            "List",
+            "Integer"
+        ],
+        "answer": "List"
+    },
+    {
+        "id": 3,
+        "question": "How do you create a function in Python?",
+        "options": [
+            "function myFunc()",
+            "def myFunc():",
+            "create myFunc()",
+            "func myFunc():"
+        ],
+        "answer": "def myFunc():"
+    }
+]

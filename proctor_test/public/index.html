@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Proctored Online Test</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Setup Screen -->
+    <div id="setup-screen" class="screen active">
+        <div class="glass-card animate-fade-in">
+            <div class="icon-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </div>
+            <h1>Python Core Assessment</h1>
+            <p class="subtitle">Secure Proctored Environment</p>
+            
+            <div class="rules-container">
+                <ul class="rules-list">
+                    <li><span class="icon">📷</span> Camera access is strictly required.</li>
+                    <li><span class="icon">🔲</span> Exam runs in Fullscreen mode.</li>
+                    <li><span class="icon">⚠️</span> Minimizing or tab-switching triggers auto-fail.</li>
+                </ul>
+            </div>
+            
+                        <div class="input-group">
+                <label for="student-class">Select Your Class</label>
+                <select id="student-class">
+                    <option value="" disabled selected>-- Select Class --</option>
+                    <option value="FYBCA">First Year (FYBCA)</option>
+                    <option value="SYBCA">Second Year (SYBCA)</option>
+                    <option value="TYBCA">Third Year (TYBCA)</option>
+                </select>
+            </div>
+            
+            <div class="input-group">
+                <label for="student-subject">Select Subject</label>
+                <select id="student-subject">
+                    <option value="" disabled selected>-- Select Subject --</option>
+                    <!-- Populated by JS -->
+                </select>
+            </div>
+            
+            <div class="input-group">
+                <label for="student-id">Student ID (Roll No)</label>
+                <input type="text" id="student-id" placeholder="e.g., 2021001" autocomplete="off">
+            </div>
+            
+            <div class="input-group">
+                <label for="student-name">Enter your full name</label>
+                <input type="text" id="student-name" placeholder="e.g., Jane Doe" autocomplete="off">
+            </div>
+            
+            <div class="input-group">
+                <label for="student-email">Student Email ID</label>
+                <input type="email" id="student-email" placeholder="e.g., jane@college.edu" autocomplete="off">
+            </div>
+            <button id="start-btn" class="btn primary-btn pulse-anim">Initialize Secure Session</button>
+            <p id="setup-error" class="error-msg"></p>
+        </div>
+    </div>
+
+        <!-- Test Screen -->
+    <div id="test-screen" class="screen">
+        <div class="header glass-panel">
+            <div class="student-info">
+                <span class="avatar-circle" id="avatar-initial"></span>
+                <span id="display-name" class="fw-bold"></span> 
+                <div class="warning-badge">Violations: <span id="warning-count">0</span></div>
+            </div>
+            <div class="timer-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                <div class="timer" id="timer">10:00</div>
+            </div>
+        </div>
+
+        <div class="test-layout">
+            <!-- Sidebar: Question Navigator -->
+            <div class="navigator-panel glass-card">
+                <h3>Question Grid</h3>
+                <div id="navigator-grid" class="nav-grid"></div>
+            </div>
+            
+            <!-- Main Content: Question -->
+            <div class="question-container glass-card">
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+                <h2 id="question-text">Loading secure content...</h2>
+                <div id="options-container" class="options-grid"></div>
+                
+                <div class="controls">
+                    <button id="prev-btn" class="btn secondary-btn hidden">&larr; Previous</button>
+                    <button id="skip-btn" class="btn secondary-btn">Skip Question</button>
+                    <button id="next-btn" class="btn primary-btn">Next &rarr;</button>
+                    <button id="submit-btn" class="btn success-btn hidden">Submit Final Answers</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Floating Camera Bubble -->
+        <div id="camera-container" class="camera-floating">
+            <div class="recording-dot"></div>
+            <video id="webcam" autoplay playsinline muted></video>
+            <canvas id="proctor-canvas" style="display:none;"></canvas>
+            <canvas id="overlay-canvas" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:10; pointer-events:none;"></canvas>
+        </div>
+    </div>
+
+    <!-- Result Screen -->
+    <div id="result-screen" class="screen">
+        <div class="glass-card result-card animate-slide-up">
+            <div class="success-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </div>
+            <h1 id="result-title">Evaluation Complete</h1>
+            
+            <div class="score-display">
+                <div class="score-number"><span id="final-score">0</span><span class="total">/<span id="total-score">0</span></span></div>
+                <div class="score-label">Final Score</div>
+            </div>
+            
+            <div class="stats-row">
+                <div class="stat-box">
+                    <div class="stat-value" id="final-warnings">0</div>
+                    <div class="stat-label">Violations</div>
+                </div>
+            </div>
+            
+            <p id="upload-status" class="status-msg">Synchronizing with secure cloud...</p>
+            <button id="exit-btn" class="btn primary-btn exit-btn" onclick="window.close()">Exit Secure Environment</button>
+        </div>
+    </div>
+
+    
+    <!-- Custom Warning Modal -->
+    <div id="warning-modal" class="modal-overlay hidden">
+        <div class="modal-content glass-card animate-slide-up">
+            <div class="modal-icon">⚠️</div>
+            <h2>Security Violation Detected</h2>
+            <p id="warning-message" class="warning-desc"></p>
+            <div class="warning-stats">
+                Warning <span id="modal-warning-count"></span> of <span id="modal-max-warnings"></span>
+            </div>
+            <button id="return-exam-btn" class="btn primary-btn">Acknowledge & Return to Exam</button>
+        </div>
+    </div>
+    
+    <!-- Firebase SDKs -->
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
+    <script src="firebase-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/face_detection.js" crossorigin="anonymous"></script>
+    <script src="app.js?v=1786905524"></script>
+</body>
+</html>
